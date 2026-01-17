@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ZION RECORDER 🌌</title>
+  <script src="https://cdn.jsdelivr.net/npm/javascript-obfuscator@4.0.0/dist/index.browser.min.js"></script>
+  <style>
+    :root {
+      --bg: #000;
+      --card: #0a001f;
+      --primary: #ff00c8;
+      --accent: #00f7ff;
+      --text: white;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Courier New', monospace;
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(255,0,200,0.1) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(0,247,255,0.1) 0%, transparent 20%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background: var(--card);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 
+        0 0 30px rgba(255,0,200,0.3),
+        inset 0 0 20px rgba(0,247,255,0.1);
+      border: 1px solid rgba(255,0,200,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    .container::before {
+      content: "";
+      position: absolute;
+      top: -2px; left: -2px; right: -2px; bottom: -2px;
+      background: linear-gradient(45deg, var(--primary), var(--accent), var(--primary));
+      z-index: -1;
+      border-radius: 22px;
+      animation: borderRotate 6s linear infinite;
+    }
+    @keyframes borderRotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    h1 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 25px;
+      text-shadow: 0 0 15px rgba(255,0,200,0.8);
+      letter-spacing: 2px;
+      font-size: 2.2em;
+      background: linear-gradient(to right, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: glow 2s infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px rgba(255,0,200,0.8); }
+      to { text-shadow: 0 0 20px rgba(0,247,255,0.8), 0 0 30px rgba(255,0,200,0.6); }
+    }
+    .tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 25px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      padding: 12px 24px;
+      background: rgba(10,0,31,0.7);
+      border: 2px solid transparent;
+      color: var(--accent);
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: bold;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+    .tab-btn:hover {
+      background: rgba(255,0,200,0.2);
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(255,0,200,0.4);
+    }
+    .tab-btn.active {
+      background: var(--primary);
+      color: black;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px rgba(255,0,200,0.7);
+      animation: pulseActive 1.5s infinite;
+    }
+    @keyframes pulseActive {
+      0% { box-shadow: 0 0 10px rgba(255,0,200,0.7); }
+      50% { box-shadow: 0 0 25px rgba(0,247,255,0.9); }
+      100% { box-shadow: 0 0 10px rgba(255,0,200,0.7); }
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+      background: rgba(0,0,0,0.7);
+      color: var(--accent);
+      border: 1px solid rgba(255,0,200,0.3);
+      border-radius: 12px;
+      padding: 15px;
+      font-family: 'Fira Code', monospace;
+      resize: vertical;
+      margin-bottom: 15px;
+      transition: border 0.3s;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 15px rgba(0,247,255,0.3);
+    }
+    .btn {
+      padding: 12px 25px;
+      background: var(--primary);
+      color: black;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s;
+      margin: 5px;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn:hover {
+      background: var(--accent);
+      color: black;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,247,255,0.6);
+    }
+    .btn:active {
+      transform: translateY(1px);
+    }
+    .file-upload {
+      text-align: center;
+      margin: 15px 0;
+    }
+    .file-upload input {
+      display: none;
+    }
+    .file-upload label {
+      display: inline-block;
+      padding: 10px 25px;
+      background: rgba(255,0,200,0.2);
+      color: var(--accent);
+      border: 2px dashed var(--primary);
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .file-upload label:hover {
+      background: rgba(255,0,200,0.4);
+      color: white;
+      transform: scale(1.05);
+    }
+    .status {
+      text-align: center;
+      margin-top: 8px;
+      font-size: 0.85em;
+      color: #aaa;
+    }
+    .checkbox-group {
+      background: rgba(0,0,0,0.5);
+      padding: 18px;
+      border-radius: 15px;
+      margin: 20px 0;
+      border: 1px solid rgba(255,0,200,0.2);
+    }
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+      gap: 12px;
+    }
+    .checkbox-item input {
+      transform: scale(1.3);
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+    label {
+      cursor: pointer;
+      font-size: 14px;
+      color: #ddd;
+    }
+    .note {
+      background: rgba(255,0,200,0.1);
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 0.9em;
+      margin-top: 20px;
+      border-left: 3px solid var(--primary);
+    }
+   /* Header Glitch Ekstrem */
+    .header-glitch {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+      font-size: 2.5em;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: var(--primary);
+      text-shadow: 0 0 15px rgba(255,0,200,0.8);
+    }
+    .glitch-text {
+      position: relative;
+      display: inline-block;
+    }
+    .glitch-text::before,
+    .glitch-text::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .glitch-text::before {
+      left: 3px;
+      text-shadow: -3px 0 #00f7ff;
+      clip: rect(44px, 450px, 56px, 0);
+      animation: glitch-anim 3s infinite linear alternate-reverse;
+    }
+    .glitch-text::after {
+      left: -3px;
+      text-shadow: -3px 0 #ff00c8;
+      clip: rect(44px, 450px, 56px, 0);
+      animation: glitch-anim2 2.5s infinite linear alternate-reverse;
+    }
+    @keyframes glitch-anim {
+      0% { clip: rect(30px, 9999px, 40px, 0); }
+      10% { clip: rect(10px, 9999px, 60px, 0); }
+      20% { clip: rect(50px, 9999px, 20px, 0); }
+      30% { clip: rect(20px, 9999px, 70px, 0); }
+      40% { clip: rect(60px, 9999px, 30px, 0); }
+      50% { clip: rect(40px, 9999px, 50px, 0); }
+      60% { clip: rect(80px, 9999px, 70px, 0); }
+      70% { clip: rect(10px, 9999px, 10px, 0); }
+      80% { clip: rect(30px, 9999px, 60px, 0); }
+      90% { clip: rect(50px, 9999px, 70px, 0); }
+      100% { clip: rect(70px, 9999px, 90px, 0); }
+    }
+    @keyframes glitch-anim2 {
+      0% { clip: rect(60px, 9999px, 100px, 0); }
+      10% { clip: rect(50px, 9999px, 70px, 0); }
+      20% { clip: rect(80px, 9999px, 80px, 0); }
+      30% { clip: rect(70px, 9999px, 20px, 0); }
+      40% { clip: rect(40px, 9999px, 30px, 0); }
+      50% { clip: rect(60px, 9999px, 80px, 0); }
+      60% { clip: rect(20px, 9999px, 70px, 0); }
+      70% { clip: rect(80px, 9999px, 40px, 0); }
+      80% { clip: rect(60px, 9999px, 60px, 0); }
+      90% { clip: rect(20px, 9999px, 50px, 0); }
+      100% { clip: rect(70px, 9999px, 90px, 0); }
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+    <div class="header-glitch">
+      <div class="glitch-text" data-text="ZION COSMIC NIGHTMARE">ZION COSMIC NIGHTMARE</div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="openTab('obf')">OBFUSCATE</button>
+      <button class="tab-btn" onclick="openTab('deobf')">DEOBFUSCATE</button>
+      <button class="tab-btn" onclick="openTab('recode')">RECODE</button>
+    </div>
+
+    <!-- OBFUSCATE -->
+    <div id="obf" class="tab-content active">
+      <div class="file-upload">
+        <input type="file" id="fileInputObf" accept=".js" />
+        <label for="fileInputObf">📁 UPLOAD .JS (Max 10MB)</label>
+        <div class="status" id="fileStatusObf">-</div>
+      </div>
+      <textarea id="inputCode" placeholder="// Paste JavaScript code here...">console.log("Zion mode: ULTRA");</textarea>
+      
+      <div class="checkbox-group">
+        <h3>🥶 Obfuscate Function 🥶</h3>
+        <div class="checkbox-item"><input type="checkbox" id="customString" /><label>Custom String Array</label></div>
+        <div class="checkbox-item"><input type="checkbox" id="encHard" /><label>Encoding Hard</label></div>
+        <div class="checkbox-item"><input type="checkbox" id="lowLevel" /><label>Control Flow Flattening</label></div>
+        <div class="checkbox-item"><input type="checkbox" id="brokenChar" /><label>Unicode Escape</label></div>
+        <div class="checkbox-item"><input type="checkbox" id="deadCode" /><label>Dead Code Injection</label></div>
+        <div class="checkbox-item"><input type="checkbox" id="dispatcher" /><label>Dispatcher Encoding</label></div>
+      </div>
+      
+      <div style="text-align:center;">
+        <button class="btn" onclick="obfuscate()">🔐 OBFUSCATE!</button>
+        <button class="btn" onclick="downloadResult('obf')">💾 DOWNLOAD</button>
+      </div>
+      <textarea id="outputCode" placeholder="// Obfuscated code..." readonly></textarea>
+    </div>
+
+    <!-- DEOBFUSCATE -->
+    <div id="deobf" class="tab-content">
+      <div class="file-upload">
+        <input type="file" id="fileInputDeobf" accept=".js" />
+        <label for="fileInputDeobf">📁 UPLOAD FILE OBFUSCATED</label>
+        <div class="status" id="fileStatusDeobf">-</div>
+      </div>
+      <textarea id="deobfInput" placeholder="// Paste obfuscated code...">var _0x123=['log'];console[_0x123[0]]('Hello');</textarea>
+      
+      <div style="text-align:center;">
+        <button class="btn" onclick="deobfuscate()">🔓 DEOBFUSCATE!</button>
+        <button class="btn" onclick="downloadResult('deobf')">💾 DOWNLOAD</button>
+      </div>
+      <textarea id="deobfOutput" placeholder="// Deobfuscated result..." readonly></textarea>
+      
+      <div class="note">
+        ⚠️ Hanya bekerja untuk obfuscasi dasar. Hasil "Ultra Mode" hampir mustahil di-decode!
+      </div>
+    </div>
+
+    <!-- RECODE -->
+    <div id="recode" class="tab-content">
+      <div style="display:flex;gap:15px;margin-bottom:15px;">
+        <div style="flex:1;">
+          <h3 style="color:var(--primary);margin-bottom:10px;">JavaScript → Python</h3>
+          <textarea id="jsToPyInput" placeholder="// function hello() { console.log('hi'); }">function greet(name) {
+  console.log("Hello, " + name);
+}</textarea>
+          <button class="btn" style="width:100%;" onclick="jsToPython()">🔄 CONVERT TO PYTHON</button>
+        </div>
+        <div style="flex:1;">
+          <h3 style="color:var(--accent);margin-bottom:10px;">Python → JavaScript</h3>
+          <textarea id="pyToJsInput" placeholder="# def hello(): print('hi')">def greet(name):
+    print(f"Hello, {name}")</textarea>
+          <button class="btn" style="width:100%;" onclick="pythonToJs()">🔄 CONVERT TO JS</button>
+        </div>
+      </div>
+      
+      <div style="display:flex;gap:15px;">
+        <textarea id="jsToPyOutput" placeholder="# Hasil konversi..." readonly style="flex:1;"></textarea>
+        <textarea id="pyToJsOutput" placeholder="// Hasil konversi..." readonly style="flex:1;"></textarea>
+      </div>
+      
+      <div class="note">
+        💡 Konversi ini <strong>template dasar</strong>! Tidak 100% akurat karena perbedaan paradigma bahasa.
+        Untuk kode kompleks, butuh penyesuaian manual.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Tab switching
+    function openTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabName).style.display = 'block';
+      event.target.classList.add('active');
+    }
+
+    // Default
+    document.querySelectorAll('.tab-content').forEach((el, i) => {
+      if (i !== 0) el.style.display = 'none';
+    });
+
+    // File upload handlers
+    function setupFileUpload(inputId, statusId, targetTextarea) {
+      document.getElementById(inputId).addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        if (!file.name.endsWith('.js')) {
+          alert('⚠️ Only .js files allowed!');
+          return;
+        }
+        if (file.size > 10 * 1024 * 1024) {
+          alert('⚠️ File too big! Max 10 MB.');
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          document.getElementById(targetTextarea).value = e.target.result;
+          document.getElementById(statusId).textContent = `✅ ${file.name} (${(file.size/1024).toFixed(1)} KB)`;
+        };
+        reader.readAsText(file);
+      });
+    }
+
+    setupFileUpload('fileInputObf', 'fileStatusObf', 'inputCode');
+    setupFileUpload('fileInputDeobf', 'fileStatusDeobf', 'deobfInput');
+
+    // Obfuscate
+    function obfuscate() {
+      const input = document.getElementById('inputCode').value.trim();
+      if (!input) return alert('⚠️ Input code first!');
+      
+      const opts = {
+        customString: document.getElementById('customString').checked,
+        encHard: document.getElementById('encHard').checked,
+        lowLevel: document.getElementById('lowLevel').checked,
+        brokenChar: document.getElementById('brokenChar').checked,
+        deadCode: document.getElementById('deadCode').checked,
+        dispatcher: document.getElementById('dispatcher').checked
+      };
+      const hardMode = Object.values(opts).every(v => v);
+
+      const options = {
+        compact: true,
+        controlFlowFlattening: hardMode || opts.lowLevel,
+        controlFlowFlatteningThreshold: hardMode ? 1 : (opts.lowLevel ? 0.8 : 0.5),
+        deadCodeInjection: hardMode || opts.deadCode,
+        deadCodeInjectionThreshold: hardMode ? 0.4 : 0.2,
+        dispatcher: hardMode || opts.dispatcher,
+        identifiersPrefix: hardMode ? '_$_ZION_' : '_0x',
+        numbersToExpressions: hardMode,
+        renameGlobals: hardMode,
+        rotateStringArray: hardMode,
+        shuffleStringArray: hardMode,
+        splitStrings: hardMode,
+        splitStringsChunkLength: hardMode ? 3 : 10,
+        stringArray: hardMode || opts.customString,
+        stringArrayCallsTransform: hardMode,
+        stringArrayCallsTransformThreshold: hardMode ? 1 : 0.5,
+        stringArrayEncoding: hardMode ? ['base64', 'rc4'] : (opts.encHard ? ['base64'] : []),
+        stringArrayIndexShift: hardMode,
+        stringArrayRotate: hardMode,
+        stringArrayShuffle: hardMode,
+        stringArrayThreshold: hardMode ? 1 : (opts.customString ? 0.75 : 0.5),
+        unicodeEscapeSequence: hardMode || opts.brokenChar
+      };
+
+      try {
+        const obfuscated = JavaScriptObfuscator.obfuscate(input, options).getObfuscatedCode();
+        document.getElementById('outputCode').value = obfuscated;
+      } catch (e) {
+        document.getElementById('outputCode').value = `// ❌ Error: ${e.message}`;
+      }
+    }
+
+    // Deobfuscate
+    function deobfuscate() {
+      let code = document.getElementById('deobfInput').value;
+      try {
+        code = code
+          .replace(/var\s+_0x[0-9a-f]+\s*=\s*\[[^\]]+\];/g, '')
+          .replace(/_0x[0-9a-f]+/g, '"REDACTED"')
+          .replace(/\[['"]([^'"]+)['"]\]/g, '.$1')
+          .replace(/console\.log\s*\(\s*["']REDACTED["']\s*,\s*(.*?)\s*\)/g, 'console.log($1)')
+          .replace(/eval\s*\(.*?\)/g, '// [EVAL REMOVED]');
+        code = code.replace(/;/g, ';\n').replace(/{/g, '{\n').replace(/}/g, '\n}');
+        document.getElementById('deobfOutput').value = code;
+      } catch (e) {
+        document.getElementById('deobfOutput').value = '// Deobfuscation failed';
+      }
+    }
+
+    // Download
+    function downloadResult(type) {
+      const id = type === 'obf' ? 'outputCode' : 'deobfOutput';
+      const output = document.getElementById(id).value;
+      if (!output || output.startsWith('//')) return alert('⚠️ No valid output!');
+      
+      const blob = new Blob([output], { type: 'application/javascript' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = type === 'obf' ? 'zions_obfuscated.js' : 'zions_deobfuscated.js';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // Recode: JS to Python (basic)
+    function jsToPython() {
+      let js = document.getElementById('jsToPyInput').value;
+      let py = js
+        .replace(/function\s+(\w+)\s*\(([^)]*)\)/g, 'def $1($2):')
+        .replace(/console\.log\s*\(/g, 'print(')
+        .replace(/;/g, '')
+        .replace(/{/g, '')
+        .replace(/}/g, '')
+        .replace(/let|const|var\s+/g, '')
+        .replace(/\/\/.*$/gm, '#$&'.substring(2))
+        .replace(/\/\*[\s\S]*?\*\//g, '');
+      document.getElementById('jsToPyOutput').value = py;
+    }
+
+    // Recode: Python to JS (basic)
+    function pythonToJs() {
+      let py = document.getElementById('pyToJsInput').value;
+      let js = py
+        .replace(/^def\s+(\w+)\s*\(([^)]*)\):/gm, 'function $1($2) {')
+        .replace(/^(\s*)print\s*\(/gm, '$1console.log(')
+        .replace(/#.*$/gm, '//$&'.substring(1))
+        .replace(/\n/g, ';\n')
+        .replace(/;$/gm, '');
+      // Add closing braces (very basic)
+      js = js + '\n}';
+      document.getElementById('pyToJsOutput').value = js;
+    }
+  </script>
+</body>
+</html>
